@@ -10,20 +10,19 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
     () => { console.log('connected to mongo: ', process.env.MONGO_URI) }
 )
 
+// MIDDLEWARE
+app.use(express.urlencoded({extended: true}))
+
 // ROUTES
 app.get('/', (req, res) => {
-  res.send('Hello World! Books API!')
+  res.send('Hello World! Books API')
 })
 
 // LISTEN
 app.listen(PORT, () => {
-  console.log('listening on port', PORT);
+  console.log('Greetings! From port: ', PORT);
 })
 
-// MIDDLEWARE
-app.use(express.urlencoded({extended: true}))
-
-
-// books
+// Books: 
 const booksController = require('./controllers/book_controller.js')
 app.use('/books', booksController)

@@ -40,21 +40,21 @@ books.get('/seed', (req, res) => {
 })
 
 
-// // Index:
-// books.get('/', (req, res) => {
-// book.find()
-//         .then(foundbooks => {
-//             res.json(foundbooks)
-//         })
-// })
+// Index:
+books.get('/', (req, res) => {
+book.find()
+        .then(foundbooks => {
+            res.json(foundbooks)
+        })
+})
 
-// // Show:
-// books.get('/:name', (req, res) => {
-//    book.findOne({ name: req.params.name .toLowerCase() })
-//         .then(foundbook => {
-//             res.json(foundbook)
-//         })
-// })
+// Show:
+books.get('/:name', (req, res) => {
+   book.findOne({ name: req.params.name .toLowerCase() })
+        .then(foundbook => {
+            res.json(foundbook)
+        })
+})
 
 
 module.exports = books
