@@ -1,6 +1,7 @@
 const express = require('express')
 const books = express.Router()
 const book = require('../models/books.js')
+const cors = require('cors')
 
 books.get('/seed', (req, res) => {
     book.insertMany([{
@@ -39,22 +40,68 @@ books.get('/seed', (req, res) => {
         }))
 })
 
-
-// Index:
 books.get('/', (req, res) => {
 book.find()
         .then(foundbooks => {
             res.json(foundbooks)
         })
-})
-
-// Show:
-books.get('/:name', (req, res) => {
-   book.findOne({ name: req.params.name .toLowerCase() })
-        .then(foundbook => {
-            res.json(foundbook)
+        .catch(err => {
+          console.log(err) 
+          res.json('error404')
         })
 })
 
+// books.get('/:id', (req, res) => {
+//    book.findOne({ id: req.params.id})
+//         .then(foundbook => {
+//             res.json(foundbook)
+//         })
+// })
 
+books.get('/:id', (req, res) => {
+  book.findById(req.params.id)
+  .then(foundBook => {
+    res.json(foundBook)
+  }) 
+  .catch(err => {
+    console.log(err) 
+    res.json('error404')
+  })
+})
+
+books.post('/add', (req, res) => {
+book.create(req.body)
+  .then(() => {
+  res.json(req.body) //res.redirect('/books')
+  })
+  .catch(err => {
+    console.log(err) 
+    res.json('error404')
+  })
+})
+
+books.put('/update/:id', (req, res) => {
+  book.findByIdAndUpdate(req.params.id, req.body)
+  .then(() => {
+    res.json(`/books/${req.params.id}`)
+  })
+  .catch(err => {
+      console.log('err', err)
+      res.json('error404')
+  })
+})
+
+books.delete('/delete/:id', (req, res) => {
+ book.findByIdAndDelete(req.params.id)
+  .then(deleteBook => {
+    res.json(deleteBook)
+  })
+  .catch(err => {
+    console.log('err', err)
+    res.json('error404')
+  })
+})
+
+
+          
 module.exports = books
